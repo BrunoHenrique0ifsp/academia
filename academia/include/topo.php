@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class = "principal">
-        <div class ="plano"><img src="img/Plano.png" alt=""></div>
+        <div class ="plano"><a href="plano.php"><img src="img/Plano.png" alt=""></a></div>
         <div class="caixa-pesquisa">
             <form action="sql/pesquisa.php" method="get">
                 <input type="text" placeholder="Pesquisar...">
