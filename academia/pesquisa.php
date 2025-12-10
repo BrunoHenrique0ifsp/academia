@@ -1,7 +1,17 @@
 <?php
 require_once 'sql/conexao.php';
 
-$sql = "SELECT * FROM Produto";
+$busca = "";
+
+// Agora aceita POST e GET
+if (isset($_POST['busca'])) {
+    $busca = $_POST['busca'];
+} 
+
+// A pesquisa é sempre por nome
+$sql = "SELECT * FROM Produto 
+        WHERE nome LIKE '%$busca%'";
+
 $resultado = $conexao->query($sql);
 ?>
 <!DOCTYPE html>
@@ -9,24 +19,25 @@ $resultado = $conexao->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Produtos</title>
-    <link rel="stylesheet" href="css/produto.css">
+    <link rel="stylesheet" href="css/pesquisa.css">
 </head>
 <body>
+<?php 
+    include 'include/topo.php';
+    include 'include/produto_principal.php';
 
+?>
 <div class="Tudo">
     <?php
+
     if ($resultado->num_rows > 0) {
         while ($linha = $resultado->fetch_assoc()) {
             $imagem = base64_encode($linha['imagem']);
-
             echo "<a href='ver_produto.php?idProduto={$linha['idProduto']}' class='card'>";
-
             echo "<img src='data:image/jpeg;base64,{$imagem}' alt='Produto'>";
-
             echo "<p class='nome'>{$linha['nome']}</p>";
-
             echo "<p class='valor'><strong>R$" . number_format($linha['valor'], 2, ',', '.') . "</strong></p>";
-
+            
             if (mb_strlen($linha['descricao'], 'UTF-8') > 30) {
                 $texto_limitado = mb_substr($linha['descricao'], 0, 30, 'UTF-8') . "...";
             } else {
@@ -34,7 +45,7 @@ $resultado = $conexao->query($sql);
             }
 
             echo "<p class='descricao'>{$texto_limitado}</p>";
-
+            
             echo "</a>";
         }
     } else {
@@ -42,6 +53,9 @@ $resultado = $conexao->query($sql);
     }
     ?>
 </div>
+<?php 
+    include 'include/rodape.php'
+    ?>
 
 </body>
 </html>

@@ -10,6 +10,8 @@
   <?php
     include 'include/topo.php';
     include 'include/produto_principal.php';
+    include 'include/produto.php';
+    include 'include/rodape.php';
     ?>
 </body>
 </html>
